@@ -1,0 +1,6 @@
+.trio-scrollpane,
+.trio-scrollpane:focused {
+    -fx-border-width: 1;
+    -fx-border-color: gainsboro;
+    -fx-background-color: whitesmoke;
+}
