@@ -1,5 +1,6 @@
 package ui.controller
 
+import javafx.scene.input.KeyEvent
 import javafx.scene.input.MouseEvent
 import model.EdgeModel
 import model.NodeModel
@@ -33,4 +34,6 @@ abstract class ControllerState {
 
     abstract fun onAddNodeButtonClick()
     abstract fun onAddEdgeButtonClick()
+
+    abstract fun onRootKeyPressed(event: KeyEvent)
 }

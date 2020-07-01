@@ -1,5 +1,6 @@
 package ui.controller
 
+import javafx.scene.input.KeyEvent
 import javafx.scene.input.MouseEvent
 import javafx.stage.Stage
 import model.EdgeModel
@@ -83,4 +84,6 @@ class StateEditNode(val node: NodeModel) : ControllerState() {
     override fun onAddEdgeButtonClick() {
         throw IllegalCallerException()
     }
+
+    override fun onRootKeyPressed(event: KeyEvent) { }
 }

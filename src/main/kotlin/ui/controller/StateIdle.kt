@@ -1,5 +1,7 @@
 package ui.controller
 
+import javafx.scene.input.KeyCode
+import javafx.scene.input.KeyEvent
 import javafx.scene.input.MouseEvent
 import model.EdgeModel
 import model.NodeModel
@@ -46,5 +48,14 @@ class StateIdle : ControllerState() {
 
     override fun onAddEdgeButtonClick() {
         TODO("Not yet implemented")
+    }
+
+    override fun onRootKeyPressed(event: KeyEvent) {
+        if (event.code == KeyCode.DELETE) {
+            for (node in controller.selectedNodes) {
+                controller.tree.removeNode(node)
+            }
+            controller.selectedNodes.clear()
+        }
     }
 }

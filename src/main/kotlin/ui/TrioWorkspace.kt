@@ -50,7 +50,9 @@ class TrioWorkspace : Workspace("Tree") {
         treeView.attach(treeModel)
         dock(treeView)
 
-        assert(!creatable.value)
+        root.setOnKeyPressed {
+            treeView.controller!!.onRootKeyPressed(it)
+        }
     }
 
     companion object {

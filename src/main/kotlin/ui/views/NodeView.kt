@@ -97,9 +97,9 @@ class NodeView(val node: NodeModel) : View() {
     }
 
     fun detach() {
-        treeView = null
         textView.textProperty().unbind()
         treeView!!.controller!!.selectedNodes.removeListener(selectedChangeListener)
+        treeView = null
         removeFromParent()
     }
 }

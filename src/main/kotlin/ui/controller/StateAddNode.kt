@@ -1,5 +1,6 @@
 package ui.controller
 
+import javafx.scene.input.KeyEvent
 import javafx.scene.input.MouseEvent
 import javafx.stage.Stage
 import model.EdgeModel
@@ -81,4 +82,6 @@ class StateAddNode : ControllerState() {
     override fun onAddEdgeButtonClick() {
         TODO("Not yet implemented")
     }
+
+    override fun onRootKeyPressed(event: KeyEvent) { }
 }

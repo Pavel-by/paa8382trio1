@@ -1,5 +1,6 @@
 package ui.controller
 
+import javafx.scene.input.KeyEvent
 import javafx.scene.input.MouseEvent
 import model.EdgeModel
 import model.NodeModel
@@ -44,5 +45,9 @@ class TreeViewController(val treeView: TreeView) {
 
     fun onAddEdgeButtonClick() {
         state.onAddEdgeButtonClick()
+    }
+
+    fun onRootKeyPressed(event: KeyEvent) {
+        state.onRootKeyPressed(event)
     }
 }
