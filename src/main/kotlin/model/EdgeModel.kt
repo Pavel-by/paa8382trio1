@@ -27,6 +27,9 @@ class EdgeModel(
     val inTreeProperty = treeModelProperty.booleanBinding { it != null }
     val isInTree: Boolean by inTreeProperty
 
+    val stepProperty = intProperty(-1)
+    var step: Int by stepProperty
+
     fun firstModelProperty(): ReadOnlyObjectProperty<NodeModel> = firstModelProperty
 
     fun secondModelProperty(): ReadOnlyObjectProperty<NodeModel> = secondModelProperty
