@@ -31,6 +31,7 @@ class TreeViewController(val treeView: TreeView) {
     fun onNodeClick(node: NodeModel, event: MouseEvent) {
         state.onNodeClick(node, event)
     }
+
     fun onEdgeClick(edge: EdgeModel, event: MouseEvent) {
         state.onEdgeClick(edge, event)
     }

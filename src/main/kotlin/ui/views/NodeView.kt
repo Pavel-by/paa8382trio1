@@ -77,7 +77,7 @@ class NodeView(val node: NodeModel) : View() {
                 else Color.rgb(183, 183, 183)
             })
             strokeWidth = 2.0
-            strokeType = StrokeType.OUTSIDE
+            strokeType = StrokeType.INSIDE
         }
 
         textView = text {
@@ -91,15 +91,16 @@ class NodeView(val node: NodeModel) : View() {
 
     fun attach(treeView: TreeView) {
         this.treeView = treeView
+        node.view = this
         textView.text = "Hello world!"
         textView.textProperty().bind(node.nameProperty)
         treeView.controller!!.selectedNodes.addListener(selectedChangeListener)
     }
 
     fun detach() {
+        node.view = null
         textView.textProperty().unbind()
         treeView!!.controller!!.selectedNodes.removeListener(selectedChangeListener)
         treeView = null
-        removeFromParent()
     }
 }

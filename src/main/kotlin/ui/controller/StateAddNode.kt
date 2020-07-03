@@ -5,7 +5,7 @@ import javafx.scene.input.MouseEvent
 import javafx.stage.Stage
 import model.EdgeModel
 import model.NodeModel
-import ui.NodeEditor
+import ui.SimpleEditor
 
 class StateAddNode : ControllerState() {
     var modal: Stage? = null
@@ -23,7 +23,7 @@ class StateAddNode : ControllerState() {
     override fun onFieldClick(event: MouseEvent) {
         val x = event.x + controller.treeView.scrollX
         val y = event.y + controller.treeView.scrollY
-        val editor = NodeEditor("Добавить вершину")
+        val editor = SimpleEditor("Добавить вершину")
 
         editor.onOk = onOkLambda@{
             val errorText = validateNodeName(editor.text)

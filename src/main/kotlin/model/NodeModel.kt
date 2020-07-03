@@ -2,6 +2,7 @@ package model
 
 import javafx.beans.property.ReadOnlyObjectProperty
 import tornadofx.*
+import ui.views.NodeView
 
 class NodeModel(
     defaultName: String = ""
@@ -20,6 +21,9 @@ class NodeModel(
 
     fun treeModelProperty(): ReadOnlyObjectProperty<TreeModel?> = treeModelProperty
 
+    val viewProperty = objectProperty<NodeView?>()
+    var view by viewProperty
+
     fun attach(treeModel: TreeModel) {
         assert(!isInTree)
         this.treeModel = treeModel
@@ -31,12 +35,12 @@ class NodeModel(
         this.treeModel = null
     }
 
-    fun add(edge: EdgeModel) {
+    fun addEdge(edge: EdgeModel) {
         assert(isInTree)
         edges.add(edge)
     }
 
-    fun remove(edge: EdgeModel) {
+    fun removeEdge(edge: EdgeModel) {
         assert(isInTree)
         edges.remove(edge)
     }
