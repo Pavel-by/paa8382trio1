@@ -26,7 +26,7 @@ class BoruvkaAlgorithm {
                 // Если здесь в какой-то момент окажется пустой edgeList, то граф не связный
                 val edgeList = components[i].second
                 // Компонента, не связанная с остальным графом, не отобразится в следующем nextComponents
-                // Таким образом, условие (components.size > 1) в любом случае выполнится
+                // Таким образом, условие завершения while(components.size > 1) в любом случае выполнится
                 if (edgeList.isEmpty()) {
                     continue
                 }
