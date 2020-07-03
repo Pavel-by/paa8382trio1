@@ -5,30 +5,34 @@ import javafx.scene.input.MouseEvent
 import javafx.stage.Stage
 import model.EdgeModel
 import model.NodeModel
+import tornadofx.isDouble
 import ui.SimpleEditor
 
-class StateEditNode(val node: NodeModel) : ControllerState() {
+class StateEditEdge(val edge: EdgeModel) : ControllerState() {
     var modal: Stage? = null
 
     override fun onStart() {
         super.onStart()
-        val editor = SimpleEditor("Редактирование вершины")
-        editor.text = node.name
-
+        val editor = SimpleEditor("Редактировать ребро")
         editor.onOk = onOkLambda@{
-            val errorText = validateNodeName(editor.text)
-
-            if (errorText != null) {
-                editor.errorText = errorText
+            if (!editor.text.isDouble()) {
+                editor.errorText = "Значение можнт иметь только тип Double, например '12.48'."
                 return@onOkLambda
             }
 
-            node.name = editor.text
+            edge.length = editor.text.toDouble()
             editor.currentStage?.close()
         }
 
         editor.onCancel = {
             editor.currentStage?.close()
+        }
+
+        editor.text = edge.length.toString()
+
+        editor.textField?.textProperty()?.addListener { value, prevValue, newValue ->
+            if (newValue.toDoubleOrNull() == null)
+                editor.text = prevValue
         }
 
         modal = editor.openModal(
@@ -41,23 +45,12 @@ class StateEditNode(val node: NodeModel) : ControllerState() {
             controller.state = StateIdle()
         } else {
             modal!!.setOnHidden {
-                this@StateEditNode.modal = null
+                this@StateEditEdge.modal = null
 
                 if (isStateAttached)
                     controller.state = StateIdle()
             }
         }
-    }
-
-    private fun validateNodeName(name: String): String? {
-        if (node.name != name && controller.tree.findNodeByName(name) != null)
-            return "Невозможно применить имя <$name> к вершине. Вершина с таким " +
-                    "именем уже существует."
-
-        if (name.isEmpty())
-            return "Имя вершины не может быть пустым"
-
-        return null
     }
 
     override fun onStop() {

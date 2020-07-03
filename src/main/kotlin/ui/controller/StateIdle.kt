@@ -27,6 +27,7 @@ class StateIdle : ControllerState() {
                 controller.selectedNodes.add(node)
         } else {
             controller.selectedNodes.removeIf { it != node }
+            controller.selectedEdges.clear()
             controller.selectedNodes.add(node)
         }
 
@@ -34,11 +35,26 @@ class StateIdle : ControllerState() {
     }
 
     override fun onEdgeClick(edge: EdgeModel, event: MouseEvent) {
-        TODO("Not yet implemented")
+        if (event.clickCount == 2) {
+            controller.state = StateEditEdge(edge)
+        }
+
+        if (event.isShiftDown || event.isControlDown) {
+            if (controller.selectedEdges.contains(edge))
+                controller.selectedEdges.remove(edge)
+            else
+                controller.selectedEdges.add(edge)
+        } else {
+            controller.selectedEdges.removeIf { it != edge }
+            controller.selectedNodes.clear()
+            controller.selectedEdges.add(edge)
+        }
+        event.consume()
     }
 
     override fun onFieldClick(event: MouseEvent) {
         controller.selectedNodes.clear()
+        controller.selectedEdges.clear()
         event.consume()
     }
 
@@ -47,15 +63,18 @@ class StateIdle : ControllerState() {
     }
 
     override fun onAddEdgeButtonClick() {
-        TODO("Not yet implemented")
+        controller.state = StateAddEdge()
     }
 
     override fun onRootKeyPressed(event: KeyEvent) {
         if (event.code == KeyCode.DELETE) {
-            for (node in controller.selectedNodes) {
-                controller.tree.removeNode(node)
-            }
+            for (edge in controller.selectedEdges)
+                controller.tree.edges.remove(edge)
+            for (node in controller.selectedNodes)
+                controller.tree.nodes.remove(node)
+
             controller.selectedNodes.clear()
+            controller.selectedEdges.clear()
         }
     }
 }

@@ -6,7 +6,7 @@ import javafx.scene.control.TextField
 import javafx.scene.input.KeyCode
 import tornadofx.*
 
-class NodeEditor(title: String = "Редактирование вершины") : Fragment(title) {
+class SimpleEditor(title: String = "Редактирование вершины") : Fragment(title) {
     val okTextProperty = stringProperty("ОК")
     var okText: String by okTextProperty
 
@@ -36,11 +36,11 @@ class NodeEditor(title: String = "Редактирование вершины") 
 
         label {
             addClass("editor-title")
-            textProperty().bind(this@NodeEditor.titleProperty)
+            textProperty().bind(this@SimpleEditor.titleProperty)
         }
 
         textfield {
-            text = this@NodeEditor.text
+            text = this@SimpleEditor.text
             textField = this
 
             setOnKeyReleased {

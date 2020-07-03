@@ -1,22 +1,14 @@
 package model
 
-import javafx.beans.property.ReadOnlyBooleanProperty
 import javafx.beans.property.ReadOnlyObjectProperty
 import tornadofx.*
+import ui.views.EdgesView
 
 class EdgeModel(
-    private val firstName: String,
-    private val secondName: String,
+    val firstModel: NodeModel,
+    val secondModel: NodeModel,
     defaultLength: Double = 0.0
 ) {
-    private val firstModelProperty = objectProperty<NodeModel>()
-    var firstModel: NodeModel by firstModelProperty
-        private set
-
-    private val secondModelProperty = objectProperty<NodeModel>()
-    var secondModel: NodeModel by secondModelProperty
-        private set
-
     private val treeModelProperty = objectProperty<TreeModel?>()
     var treeModel: TreeModel? by treeModelProperty
         private set
@@ -30,25 +22,24 @@ class EdgeModel(
     val stepProperty = intProperty(-1)
     var step: Int by stepProperty
 
-    fun firstModelProperty(): ReadOnlyObjectProperty<NodeModel> = firstModelProperty
+    val viewProperty = objectProperty<EdgesView>()
+    var view by viewProperty
 
-    fun secondModelProperty(): ReadOnlyObjectProperty<NodeModel> = secondModelProperty
+    fun otherNode(model: NodeModel) = if (model == firstModel) secondModel else firstModel
 
     fun treeModelProperty(): ReadOnlyObjectProperty<TreeModel?> = treeModelProperty
 
     fun attach(treeModel: TreeModel) {
         assert(!isInTree)
-        firstModel = treeModel.findNodeByName(firstName)!!
-        secondModel = treeModel.findNodeByName(secondName)!!
-        firstModel.add(this)
-        secondModel.add(this)
         this.treeModel = treeModel
+        firstModel.addEdge(this)
+        secondModel.addEdge(this)
     }
 
     fun detach() {
         assert(isInTree)
-        firstModel.remove(this)
-        secondModel.remove(this)
+        firstModel.removeEdge(this)
+        secondModel.removeEdge(this)
         treeModel = null
     }
 

@@ -1,0 +1,14 @@
+.edge-length {
+    -fx-background-color: rgb(183, 183, 183);
+    -fx-background-radius: 2px;
+    -fx-padding: 0 3px;
+}
+
+.edge-length:selected {
+    -fx-background-color: black;
+}
+
+.edge-length-text {
+    -fx-stroke: white;
+    -fx-font-size: 13px;
+}
