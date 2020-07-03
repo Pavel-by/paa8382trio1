@@ -6,10 +6,14 @@ import kotlin.collections.ArrayList
 typealias BoruvkaComponents = ArrayList<Pair<ArrayList<NodeModel>, LinkedList<EdgeModel>>>
 
 class BoruvkaAlgorithm {
+    var graphIsConnected = false
+        private set
+
     fun process(graph: TreeModel) {
         for (edge in graph.edges) {
             edge.step = -1
         }
+        graphIsConnected = true
 
         // Массив компонент графа, которые должны слиться в одну
         var components = graphToBoruvkaComponents(graph)
@@ -26,8 +30,9 @@ class BoruvkaAlgorithm {
                 // Если здесь в какой-то момент окажется пустой edgeList, то граф не связный
                 val edgeList = components[i].second
                 // Компонента, не связанная с остальным графом, не отобразится в следующем nextComponents
-                // Таким образом, условие (components.size > 1) в любом случае выполнится
+                // Таким образом, условие завершения while(components.size > 1) в любом случае выполнится
                 if (edgeList.isEmpty()) {
+                    graphIsConnected = false
                     continue
                 }
 
