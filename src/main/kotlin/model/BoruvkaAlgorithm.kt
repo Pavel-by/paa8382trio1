@@ -25,6 +25,11 @@ class BoruvkaAlgorithm {
             for (i in components.indices) {
                 // Если здесь в какой-то момент окажется пустой edgeList, то граф не связный
                 val edgeList = components[i].second
+                // Компонента, не связанная с остальным графом, не отобразится в следующем nextComponents
+                // Таким образом, условие (components.size > 1) в любом случае выполнится
+                if (edgeList.isEmpty()) {
+                    continue
+                }
 
                 // Нахождение минимального ребра для текущей компоненты
                 val minEdge = findMinEdge(edgeList)!!
