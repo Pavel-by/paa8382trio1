@@ -7,6 +7,10 @@ typealias BoruvkaComponents = ArrayList<Pair<ArrayList<NodeModel>, LinkedList<Ed
 
 class BoruvkaAlgorithm {
     fun process(graph: TreeModel) {
+        for (edge in graph.edges) {
+            edge.step = -1
+        }
+
         // Массив компонент графа, которые должны слиться в одну
         var components = graphToBoruvkaComponents(graph)
 
