@@ -43,24 +43,18 @@ class GraphGenerator {
             updateErrorMessage()
             return
         }
-
         resultCode = GeneratorResult.OK
         updateErrorMessage()
 
-        treeView.edgesPane.clear()
-        treeView.nodesPane.clear()
-        treeView.treeModel!!.edges.clear()
         treeView.treeModel!!.nodes.clear()
-
 
         val nodeArray = ArrayList<NodeModel>()
         val occupiedPoints = ArrayList<Pair<Double, Double>>()
-
         attemptBreakLabel@ for (i in 0 until nodeCount) {
             val maxAttemptCount = 30
             var attemptCount = 0
 
-            var point: Pair<Double, Double> = generatePoint(40.0, 196.0)
+            var point: Pair<Double, Double> = generatePoint(40.0, 1960.0)
             while (!checkPointAvailability(point, occupiedPoints)) {
                 attemptCount++
                 if (attemptCount == maxAttemptCount) {
@@ -68,7 +62,7 @@ class GraphGenerator {
                     updateErrorMessage()
                     break@attemptBreakLabel
                 }
-                point = generatePoint(40.0, 196.0)
+                point = generatePoint(40.0, 1960.0)
             }
             occupiedPoints.add(point)
 
@@ -91,7 +85,7 @@ class GraphGenerator {
             return
         }
         repeat(edgeCount) {
-            val randomFirstNode = ThreadLocalRandom.current().nextInt(0, nodeArray.size);
+            val randomFirstNode = ThreadLocalRandom.current().nextInt(0, nodeArray.size)
             var randomSecondNode = ThreadLocalRandom.current().nextInt(0, nodeArray.size)
             while (randomFirstNode == randomSecondNode) {
                 randomSecondNode = ThreadLocalRandom.current().nextInt(0, nodeArray.size)
