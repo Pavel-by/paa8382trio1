@@ -86,4 +86,12 @@ class StateEditNode(val node: NodeModel) : ControllerState() {
     }
 
     override fun onRootKeyPressed(event: KeyEvent) { }
+
+    override fun onEditButtonClick() {
+        controller.state = StateAlgorithm()
+    }
+
+    override fun onForwardButtonClick() {}
+
+    override fun onBackButtonClick() {}
 }

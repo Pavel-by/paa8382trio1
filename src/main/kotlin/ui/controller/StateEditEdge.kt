@@ -79,4 +79,12 @@ class StateEditEdge(val edge: EdgeModel) : ControllerState() {
     }
 
     override fun onRootKeyPressed(event: KeyEvent) { }
+
+    override fun onEditButtonClick() {
+        controller.state = StateAlgorithm()
+    }
+
+    override fun onForwardButtonClick() {}
+
+    override fun onBackButtonClick() {}
 }

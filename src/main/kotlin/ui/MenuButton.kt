@@ -4,15 +4,15 @@ import javafx.scene.control.Button
 import tornadofx.*
 
 class MenuButton : Button() {
-    val activeProperty = booleanProperty().apply {
+    val selectedProperty = booleanProperty().apply {
         onChange {
             if (it)
-                addPseudoClass("active")
+                addPseudoClass("selected")
             else
-                removePseudoClass("active")
+                removePseudoClass("selected")
         }
     }
-    var isActive: Boolean by activeProperty
+    var isSelected: Boolean by selectedProperty
 
     init {
         addClass("toolbar-button")

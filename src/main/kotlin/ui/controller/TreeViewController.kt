@@ -9,6 +9,25 @@ import tornadofx.*
 import ui.views.TreeView
 
 class TreeViewController(val treeView: TreeView) {
+    val currentStepProperty = longProperty(-1).apply {
+        onChange { step ->
+            selectedEdges.removeIf { it.step > step }
+            selectedEdges.addAll(tree.edges.filter { it.step <= step })
+        }
+    }
+    var currentStep by currentStepProperty
+
+    val maxStepProperty = longProperty(-1).apply {
+        onChange {
+            if (it < currentStep)
+                currentStep = it
+        }
+    }
+    var maxStep by maxStepProperty
+
+    val editProperty = booleanProperty(false)
+    var isEdit by editProperty
+
     val addNodeSelectedProperty = booleanProperty(false)
     var isAddNodeSelected by addNodeSelectedProperty
 
@@ -50,5 +69,17 @@ class TreeViewController(val treeView: TreeView) {
 
     fun onRootKeyPressed(event: KeyEvent) {
         state.onRootKeyPressed(event)
+    }
+
+    fun onEditButtonClick() {
+        state.onEditButtonClick()
+    }
+
+    fun onForwardButtonClick() {
+        state.onForwardButtonClick()
+    }
+
+    fun onBackButtonClick() {
+        state.onBackButtonClick()
     }
 }

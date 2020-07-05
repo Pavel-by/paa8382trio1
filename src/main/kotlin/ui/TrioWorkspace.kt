@@ -8,44 +8,89 @@ import ui.views.TreeView
 class TrioWorkspace : Workspace("Tree") {
     private val treeModel = TreeModel()
     private val treeView = TreeView().apply {
-        controller = TreeViewController(this)
+        controller = TreeViewController(this).apply {
+            addEdgeSelectedProperty.onChange { updateButtons() }
+            addNodeSelectedProperty.onChange { updateButtons() }
+            currentStepProperty.onChange { updateButtons() }
+            maxStepProperty.onChange { updateButtons() }
+            editProperty.onChange { updateButtons() }
+        }
     }
 
-    override val closeable = booleanProperty(false)
-    override val complete = booleanProperty(false)
-    override val creatable = booleanProperty(false)
-    override val deletable = booleanProperty(false)
-    override val refreshable = booleanProperty(false)
-    override val savable = booleanProperty(false)
+    private var editButton = MenuButton().apply {
+        text = "Редактирование"
+
+        setOnAction {
+            treeView.controller!!.onEditButtonClick()
+        }
+    }
+    private var addNodeButton = MenuButton().apply {
+        text = "Добавить вершину"
+
+        setOnAction {
+            treeView.controller!!.onAddNodeButtonClick()
+        }
+    }
+    private var addEdgeButton = MenuButton().apply {
+        text = "Добавить ребро"
+
+        setOnAction {
+            treeView.controller!!.onAddEdgeButtonClick()
+        }
+    }
+
+    private fun updateButtons() {
+        if (treeView.controller!!.isEdit) {
+            backButton.isDisable = true
+            forwardButton.isDisable = true
+            addEdgeButton.isDisable = false
+            addNodeButton.isDisable = false
+            editButton.addPseudoClass("selected")
+
+            if (treeView.controller!!.isAddNodeSelected) {
+                addNodeButton.addPseudoClass("selected")
+            } else {
+                addNodeButton.removePseudoClass("selected")
+            }
+
+            if (treeView.controller!!.isAddEdgeSelected) {
+                addEdgeButton.addPseudoClass("selected")
+            } else {
+                addEdgeButton.removePseudoClass("selected")
+            }
+        } else {
+            backButton.isDisable = treeView.controller!!.currentStep < 0
+            forwardButton.isDisable = treeView.controller!!.currentStep >= treeView.controller!!.maxStep
+            addNodeButton.removePseudoClass("selected")
+            addEdgeButton.removePseudoClass("selected")
+            addNodeButton.isDisable = true
+            addEdgeButton.isDisable = true
+            editButton.removePseudoClass("selected")
+        }
+    }
 
     override fun onDock() {
         super.onDock()
         header.replaceChildren()
+
+        backButton.disableProperty().unbind()
+        forwardButton.disableProperty().unbind()
+
+        forwardButton.action {
+            treeView.controller!!.onForwardButtonClick()
+        }
+        backButton.action {
+            treeView.controller!!.onBackButtonClick()
+        }
+
+        header.items.add(backButton)
+        header.items.add(forwardButton)
+
         header.addClass("toolbar")
-        header.add(headingContainer)
-
-        header.items.add(MenuButton().apply {
-            text = "Добавить вершину"
-            parentProperty().onChange {
-                if (it != null) {
-                    activeProperty.bind(treeView.controller!!.addNodeSelectedProperty)
-                } else {
-                    activeProperty.unbind()
-                }
-            }
-            setOnAction {
-                treeView.controller!!.onAddNodeButtonClick()
-            }
-        })
-
-        header.items.add(MenuButton().apply {
-            text = "Добавить ребро"
-            activeProperty.bind(treeView.controller!!.addEdgeSelectedProperty)
-
-            setOnAction {
-                treeView.controller!!.onAddEdgeButtonClick()
-            }
-        })
+        header.items.add(0, headingContainer)
+        header.items.add(editButton)
+        header.items.add(addNodeButton)
+        header.items.add(addEdgeButton)
 
         treeView.attach(treeModel)
         dock(treeView)
@@ -53,6 +98,8 @@ class TrioWorkspace : Workspace("Tree") {
         root.setOnKeyPressed {
             treeView.controller!!.onRootKeyPressed(it)
         }
+
+        updateButtons()
     }
 
     companion object {
