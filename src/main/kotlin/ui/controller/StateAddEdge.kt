@@ -18,6 +18,7 @@ class StateAddEdge : ControllerState() {
 
     override fun onStart() {
         super.onStart()
+        controller.isEdit = true
         controller.isAddNodeSelected = false
         controller.isAddEdgeSelected = true
         controller.selectedEdges.clear()
@@ -71,6 +72,7 @@ class StateAddEdge : ControllerState() {
 
             val edge = EdgeModel(first, second, editor.text.toDouble())
             controller.tree.edges.add(edge)
+            controller.selectedNodes.clear()
             editor.currentStage?.close()
         }
 
@@ -102,4 +104,12 @@ class StateAddEdge : ControllerState() {
             }
         }
     }
+
+    override fun onEditButtonClick() {
+        controller.state = StateAlgorithm()
+    }
+
+    override fun onForwardButtonClick() {}
+
+    override fun onBackButtonClick() {}
 }

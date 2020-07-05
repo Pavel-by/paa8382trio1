@@ -12,6 +12,7 @@ class StateAddNode : ControllerState() {
 
     override fun onStart() {
         super.onStart()
+        controller.isEdit = true
         controller.isAddNodeSelected = true
         controller.isAddEdgeSelected = false
     }
@@ -80,8 +81,16 @@ class StateAddNode : ControllerState() {
     }
 
     override fun onAddEdgeButtonClick() {
-        TODO("Not yet implemented")
+        controller.state = StateAddEdge()
     }
 
     override fun onRootKeyPressed(event: KeyEvent) { }
+
+    override fun onEditButtonClick() {
+        controller.state = StateAlgorithm()
+    }
+
+    override fun onForwardButtonClick() {}
+
+    override fun onBackButtonClick() {}
 }

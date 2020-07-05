@@ -18,6 +18,6 @@
     -fx-background-color: #C3C3C3;
 }
 
-.toolbar-button:active {
+.toolbar-button:selected {
     -fx-background-color: #D4D4D4;
 }

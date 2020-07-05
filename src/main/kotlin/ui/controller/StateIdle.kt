@@ -9,6 +9,7 @@ import model.NodeModel
 class StateIdle : ControllerState() {
     override fun onStart() {
         super.onStart()
+        controller.isEdit = true
         controller.isAddEdgeSelected = false
         controller.isAddNodeSelected = false
     }
@@ -77,4 +78,12 @@ class StateIdle : ControllerState() {
             controller.selectedEdges.clear()
         }
     }
+
+    override fun onEditButtonClick() {
+        controller.state = StateAlgorithm()
+    }
+
+    override fun onForwardButtonClick() {}
+
+    override fun onBackButtonClick() {}
 }
