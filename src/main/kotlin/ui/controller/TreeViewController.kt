@@ -17,7 +17,7 @@ class TreeViewController(val treeView: TreeView) {
     }
     var currentStep by currentStepProperty
 
-    val maxStepProperty = longProperty(0).apply {
+    val maxStepProperty = longProperty(-1).apply {
         onChange {
             if (it < currentStep)
                 currentStep = it

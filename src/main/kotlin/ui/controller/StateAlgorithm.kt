@@ -20,7 +20,7 @@ class StateAlgorithm : ControllerState() {
         controller.selectedEdges.clear()
         controller.currentStep = -1
         controller.maxStep = controller.tree.edges.fold(
-            0L,
+            -1L,
             {maxStep, model -> max(maxStep, model.step.toLong())}
         )
     }
