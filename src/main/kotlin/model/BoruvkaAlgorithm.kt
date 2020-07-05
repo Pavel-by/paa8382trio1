@@ -49,14 +49,14 @@ class BoruvkaAlgorithm {
 
                 // Если никакое ребро из предыдущих множеств не ведет в текущее множество
                 if (assignment[i] >= nextComponents.size) {
-                    // Проврка, сольется ли текущее множество с каким-то из предыдущих за счет ребра текущей итерации
-                    val (uniteFlag: Boolean, index: Int) = getGroupByNode(nextComponents, nodeFromOtherGroup)
+                    // Проверка, сольется ли текущее множество с каким-то из предыдущих за счет ребра текущей итерации
+                    val index: Int = getGroupByNode(components, nodeFromOtherGroup)
 
                     // Если текущее минимальное ребро ведет в какую-то из предыдущих компонент, слияние с ним
-                    if (uniteFlag) {
-                        assignment[i] = index
-                        nextComponents[index].first.addAll(components[i].first)
-                        nextComponents[index].second.addAll(components[i].second)
+                    if (assignment[index] < i) {
+                        assignment[i] = assignment[index]
+                        nextComponents[assignment[i]].first.addAll(components[i].first)
+                        nextComponents[assignment[i]].second.addAll(components[i].second)
                     }
                     // Если текущее не сливается ни с каким из предыдущих, добавленое новой отдельной компоненты
                     else {
@@ -66,13 +66,12 @@ class BoruvkaAlgorithm {
                 }
                 // Иначе текущее множество объединяется с уже существующим
                 else {
-                    val index = assignment[i]
-                    nextComponents[index].first.addAll(components[i].first)
-                    nextComponents[index].second.addAll(components[i].second)
+                    nextComponents[assignment[i]].first.addAll(components[i].first)
+                    nextComponents[assignment[i]].second.addAll(components[i].second)
                 }
 
                 // Переопределение assignment для того множества, в которое ведет minEdge
-                if (minEdge.step >= 0) {
+                if (minEdge.step < 0) {
                     for (j in i + 1 until components.size) {
                         if (components[j].first.contains(nodeFromOtherGroup)) {
                             assignment[j] = assignment[i]
@@ -130,13 +129,13 @@ class BoruvkaAlgorithm {
         return null
     }
 
-    private fun getGroupByNode(components: BoruvkaComponents, nodeModel: NodeModel): Pair<Boolean, Int> {
+    private fun getGroupByNode(components: BoruvkaComponents, nodeModel: NodeModel): Int {
         for (i in components.indices) {
             if (components[i].first.contains(nodeModel)) {
-                return Pair(true, i)
+                return i
             }
         }
-        return Pair(false, -1)
+        return -1
     }
 
     private fun removeInternalEdges(components: BoruvkaComponents) {
