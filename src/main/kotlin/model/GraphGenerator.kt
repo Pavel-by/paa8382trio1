@@ -43,6 +43,16 @@ class GraphGenerator {
             updateErrorMessage()
             return
         }
+        if (edgeCount < 0) {
+            resultCode = GeneratorResult.NEGATIVE_EDGE_COUNT
+            updateErrorMessage()
+            return
+        }
+        if (nodeCount < 2 && edgeCount > 0) {
+            resultCode = GeneratorResult.IMPOSSIBLE_TO_BUILD_EDGES
+            updateErrorMessage()
+            return
+        }
         resultCode = GeneratorResult.OK
         updateErrorMessage()
 
@@ -73,17 +83,6 @@ class GraphGenerator {
             nodeView.y = point.second
         }
 
-
-        if (edgeCount < 0) {
-            resultCode = GeneratorResult.NEGATIVE_EDGE_COUNT
-            updateErrorMessage()
-            return
-        }
-        if (nodeCount < 2 && edgeCount > 0) {
-            resultCode = GeneratorResult.IMPOSSIBLE_TO_BUILD_EDGES
-            updateErrorMessage()
-            return
-        }
         repeat(edgeCount) {
             val randomFirstNode = ThreadLocalRandom.current().nextInt(0, nodeArray.size)
             var randomSecondNode = ThreadLocalRandom.current().nextInt(0, nodeArray.size)
