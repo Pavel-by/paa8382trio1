@@ -77,6 +77,13 @@ class StateIdle : ControllerState() {
             controller.selectedNodes.clear()
             controller.selectedEdges.clear()
         }
+
+        if (event.isControlDown) {
+            if (event.code == KeyCode.A) {
+                controller.selectedNodes.addAll(controller.tree.nodes)
+                controller.selectedEdges.addAll(controller.tree.edges)
+            }
+        }
     }
 
     override fun onEditButtonClick() {

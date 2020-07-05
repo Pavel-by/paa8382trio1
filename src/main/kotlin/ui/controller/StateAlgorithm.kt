@@ -46,12 +46,16 @@ class StateAlgorithm : ControllerState() {
     }
 
     override fun onForwardButtonClick() {
-        assert(controller.currentStep < controller.maxStep)
+        if (controller.currentStep >= controller.maxStep)
+            return
+
         controller.currentStep += 1
     }
 
     override fun onBackButtonClick() {
-        assert(controller.currentStep >= 0)
+        if (controller.currentStep < 0)
+            return
+
         controller.currentStep -= 1
     }
 
