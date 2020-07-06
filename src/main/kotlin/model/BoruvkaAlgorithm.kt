@@ -38,6 +38,7 @@ class BoruvkaAlgorithm {
 
                 // Нахождение минимального ребра для текущей компоненты
                 val minEdge = findMinEdge(edgeList)!!
+                var shouldUpdateStep = true
                 // Оно сразу же удаляется из списка
                 edgeList.remove(minEdge)
 
@@ -48,6 +49,7 @@ class BoruvkaAlgorithm {
 
 
                 // Если никакое ребро из предыдущих множеств не ведет в текущее множество
+                // (В nextComponents еще не существует той компоненты, в которую должна отобразиться по assigment)
                 if (assignment[i] >= nextComponents.size) {
                     // Проверка, сольется ли текущее множество с каким-то из предыдущих за счет ребра текущей итерации
                     val index: Int = getGroupByNode(components, nodeFromOtherGroup)
@@ -66,6 +68,8 @@ class BoruvkaAlgorithm {
                 }
                 // Иначе текущее множество объединяется с уже существующим
                 else {
+                    // В текущую компоненту из той другой уже найдено ребро. Нет смысла добавлять текущее
+                    shouldUpdateStep = false
                     nextComponents[assignment[i]].first.addAll(components[i].first)
                     nextComponents[assignment[i]].second.addAll(components[i].second)
                 }
@@ -78,9 +82,11 @@ class BoruvkaAlgorithm {
                             break
                         }
                     }
-                }
 
-                minEdge.step = stepCounter
+                    if (shouldUpdateStep) {
+                        minEdge.step = stepCounter
+                    }
+                }
             }
 
             // Из каждого множества удаляются внутренние ребра
