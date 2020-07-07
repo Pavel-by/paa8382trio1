@@ -67,6 +67,10 @@ class EdgesView {
     val edges = hashSetOf<EdgeModel>()
     val edgeToView = hashMapOf<EdgeModel, EdgeLength>()
 
+    val selectedProperty = booleanProperty(false)
+    var isSelected by selectedProperty
+        private set
+
     val hasEdges: Boolean
         get() = edges.isNotEmpty()
 
@@ -85,7 +89,12 @@ class EdgesView {
     var controller: TreeViewController? = null
 
     val lineView = Line().apply {
-        stroke = Color.rgb(183, 183, 183)
+        strokeProperty().bind(selectedProperty.objectBinding {
+            if (it == true)
+                Color.BLACK
+            else
+                Color.rgb(183, 183, 183)
+        })
 
         startXProperty().bind(this@EdgesView.startXProperty)
         startYProperty().bind(this@EdgesView.startYProperty)
@@ -110,6 +119,16 @@ class EdgesView {
 
         lengthsView.layoutX = centerX - lengthsView.width / 2
         lengthsView.layoutY = centerY - lengthsView.height / 2
+    }
+
+    private fun validateSelected() {
+        for (edge in edgeToView.values)
+            if (edge.isSelected) {
+                isSelected = true
+                return
+            }
+
+        isSelected = false
     }
 
     fun addToParent(controller: TreeViewController, parent: Parent) {
@@ -138,6 +157,7 @@ class EdgesView {
         edge.view = this
         edges.add(edge)
         edgeToView[edge] = EdgeLength(controller!!, edge)
+        edgeToView[edge]!!.selectedProperty.addListener { observable, oldValue, newValue -> validateSelected() }
         lengthsView.add(edgeToView[edge]!!)
     }
 

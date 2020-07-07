@@ -51,7 +51,7 @@ class TreeView : View("Tree") {
 
         stackpane {
             this.minWidth = 2000.0
-            this.minHeight = 1200.0
+            this.minHeight = 2000.0
 
             edgesPane = pane {
                 isPickOnBounds = false
