@@ -52,6 +52,13 @@ class TrioWorkspace : Workspace("Tree") {
             treeView.controller!!.onForceBackButtonClick()
         }
     }
+    private val generateGraphButton = MenuButton().apply {
+        text = "Сгенерировать граф"
+
+        setOnAction {
+            treeView.controller!!.onGenerateGraphButtonClick()
+        }
+    }
 
     private fun updateButtons() {
         if (treeView.controller!!.isEdit) {
@@ -61,6 +68,7 @@ class TrioWorkspace : Workspace("Tree") {
             forceBackButton.isDisable = true
             addEdgeButton.isDisable = false
             addNodeButton.isDisable = false
+            generateGraphButton.isDisable = false
             editButton.addPseudoClass("selected")
 
             if (treeView.controller!!.isAddNodeSelected) {
@@ -83,6 +91,7 @@ class TrioWorkspace : Workspace("Tree") {
             addEdgeButton.removePseudoClass("selected")
             addNodeButton.isDisable = true
             addEdgeButton.isDisable = true
+            generateGraphButton.isDisable = true
             editButton.removePseudoClass("selected")
         }
     }
@@ -111,6 +120,9 @@ class TrioWorkspace : Workspace("Tree") {
         header.items.add(editButton)
         header.items.add(addNodeButton)
         header.items.add(addEdgeButton)
+        header.spacer {  }
+        header.items.add(generateGraphButton)
+
 
         treeView.attach(treeModel)
         dock(treeView)

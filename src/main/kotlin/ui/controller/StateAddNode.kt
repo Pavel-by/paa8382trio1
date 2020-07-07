@@ -17,6 +17,11 @@ class StateAddNode : ControllerState() {
         controller.isAddEdgeSelected = false
     }
 
+    override fun onStop() {
+        super.onStop()
+        controller.isAddNodeSelected = false
+    }
+
     override fun onNodeClick(node: NodeModel, event: MouseEvent) { }
 
     override fun onEdgeClick(edge: EdgeModel, event: MouseEvent) { }
@@ -97,4 +102,8 @@ class StateAddNode : ControllerState() {
     override fun onForceForwardButtonClick() {}
 
     override fun onForceBackButtonClick() {}
+
+    override fun onGenerateGraphButtonClick() {
+        controller.state = StateGenerateGraph()
+    }
 }

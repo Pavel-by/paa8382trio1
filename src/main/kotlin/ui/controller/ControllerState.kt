@@ -39,6 +39,7 @@ abstract class ControllerState {
     abstract fun onForceForwardButtonClick()
     abstract fun onBackButtonClick()
     abstract fun onForceBackButtonClick()
+    abstract fun onGenerateGraphButtonClick()
 
     abstract fun onRootKeyPressed(event: KeyEvent)
 }

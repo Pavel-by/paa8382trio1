@@ -68,4 +68,6 @@ class StateAlgorithm : ControllerState() {
     override fun onForceBackButtonClick() {
         controller.currentStep = -1
     }
+
+    override fun onGenerateGraphButtonClick() {}
 }

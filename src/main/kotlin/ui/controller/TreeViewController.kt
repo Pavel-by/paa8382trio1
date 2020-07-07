@@ -90,4 +90,8 @@ class TreeViewController(val treeView: TreeView) {
     fun onForceBackButtonClick() {
         state.onForceBackButtonClick()
     }
+
+    fun onGenerateGraphButtonClick() {
+        state.onGenerateGraphButtonClick()
+    }
 }

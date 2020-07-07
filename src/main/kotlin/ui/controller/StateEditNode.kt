@@ -98,4 +98,6 @@ class StateEditNode(val node: NodeModel) : ControllerState() {
     override fun onForceForwardButtonClick() {}
 
     override fun onForceBackButtonClick() {}
+
+    override fun onGenerateGraphButtonClick() {}
 }
