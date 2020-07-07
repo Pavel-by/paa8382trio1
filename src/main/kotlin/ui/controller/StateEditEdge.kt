@@ -87,4 +87,8 @@ class StateEditEdge(val edge: EdgeModel) : ControllerState() {
     override fun onForwardButtonClick() {}
 
     override fun onBackButtonClick() {}
+
+    override fun onForceForwardButtonClick() {}
+
+    override fun onForceBackButtonClick() {}
 }

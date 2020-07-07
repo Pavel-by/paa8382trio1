@@ -36,7 +36,9 @@ abstract class ControllerState {
     abstract fun onAddEdgeButtonClick()
     abstract fun onEditButtonClick()
     abstract fun onForwardButtonClick()
+    abstract fun onForceForwardButtonClick()
     abstract fun onBackButtonClick()
+    abstract fun onForceBackButtonClick()
 
     abstract fun onRootKeyPressed(event: KeyEvent)
 }

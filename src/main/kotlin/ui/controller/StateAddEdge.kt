@@ -112,4 +112,8 @@ class StateAddEdge : ControllerState() {
     override fun onForwardButtonClick() {}
 
     override fun onBackButtonClick() {}
+
+    override fun onForceForwardButtonClick() {}
+
+    override fun onForceBackButtonClick() {}
 }

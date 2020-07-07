@@ -82,4 +82,12 @@ class TreeViewController(val treeView: TreeView) {
     fun onBackButtonClick() {
         state.onBackButtonClick()
     }
+
+    fun onForceForwardButtonClick() {
+        state.onForceForwardButtonClick()
+    }
+
+    fun onForceBackButtonClick() {
+        state.onForceBackButtonClick()
+    }
 }

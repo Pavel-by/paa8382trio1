@@ -60,4 +60,12 @@ class StateAlgorithm : ControllerState() {
     }
 
     override fun onRootKeyPressed(event: KeyEvent) {}
+
+    override fun onForceForwardButtonClick() {
+        controller.currentStep = controller.maxStep
+    }
+
+    override fun onForceBackButtonClick() {
+        controller.currentStep = -1
+    }
 }
