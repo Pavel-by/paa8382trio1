@@ -8,7 +8,7 @@ import model.TreeModel
 import tornadofx.*
 import ui.controller.TreeViewController
 
-class TreeView : View("Tree") {
+class TreeView : View("Tree") { 
     private val nodesChangeListener = SetChangeListener<NodeModel> { change ->
         if (change.wasAdded())
             addNode(change.elementAdded)
