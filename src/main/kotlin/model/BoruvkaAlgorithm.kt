@@ -40,6 +40,8 @@ class BoruvkaAlgorithm {
                 val minEdge = findMinEdge(edgeList)!!
                 // Оно сразу же удаляется из списка
                 edgeList.remove(minEdge)
+                // Не находилась ли ранее связть между этими компонентами
+                var connectionIsNew = true
 
                 // Вершина, принадлежащая текущему множеству
                 val nodeFromCurrentGroup = determineNodeOfEdgeByArray(minEdge, components[i].first)!!
@@ -48,6 +50,7 @@ class BoruvkaAlgorithm {
 
 
                 // Если никакое ребро из предыдущих множеств не ведет в текущее множество
+                // (В nextComponents еще не существует той компоненты, в которую должна отобразиться по assigment)
                 if (assignment[i] >= nextComponents.size) {
                     // Проверка, сольется ли текущее множество с каким-то из предыдущих за счет ребра текущей итерации
                     val index: Int = getGroupByNode(components, nodeFromOtherGroup)
@@ -66,21 +69,24 @@ class BoruvkaAlgorithm {
                 }
                 // Иначе текущее множество объединяется с уже существующим
                 else {
+                    // В текущую компоненту из той другой уже найдено ребро. Нет смысла добавлять текущее
+                    if (getGroupByNode(nextComponents, nodeFromOtherGroup) >= 0) {
+                        connectionIsNew = false
+                    }
                     nextComponents[assignment[i]].first.addAll(components[i].first)
                     nextComponents[assignment[i]].second.addAll(components[i].second)
                 }
 
                 // Переопределение assignment для того множества, в которое ведет minEdge
-                if (minEdge.step < 0) {
+                if (minEdge.step < 0 && connectionIsNew) {
                     for (j in i + 1 until components.size) {
                         if (components[j].first.contains(nodeFromOtherGroup)) {
                             assignment[j] = assignment[i]
                             break
                         }
                     }
+                    minEdge.step = stepCounter
                 }
-
-                minEdge.step = stepCounter
             }
 
             // Из каждого множества удаляются внутренние ребра
