@@ -35,6 +35,7 @@ class StateAddEdge : ControllerState() {
 
     override fun onStop() {
         super.onStop()
+        controller.isAddEdgeSelected = false
         controller.selectedNodes.removeListener(nodesChangedListener)
     }
 
@@ -112,4 +113,12 @@ class StateAddEdge : ControllerState() {
     override fun onForwardButtonClick() {}
 
     override fun onBackButtonClick() {}
+
+    override fun onForceForwardButtonClick() {}
+
+    override fun onForceBackButtonClick() {}
+
+    override fun onGenerateGraphButtonClick() {
+        controller.state = StateGenerateGraph()
+    }
 }

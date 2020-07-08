@@ -11,8 +11,8 @@ import ui.views.TreeView
 class TreeViewController(val treeView: TreeView) {
     val currentStepProperty = longProperty(-1).apply {
         onChange { step ->
-            selectedEdges.removeIf { it.step > step }
-            selectedEdges.addAll(tree.edges.filter { it.step <= step })
+            selectedEdges.removeIf { it.step > step || it.step == -1 }
+            selectedEdges.addAll(tree.edges.filter { it.step <= step && it.step != -1 })
         }
     }
     var currentStep by currentStepProperty
@@ -81,5 +81,17 @@ class TreeViewController(val treeView: TreeView) {
 
     fun onBackButtonClick() {
         state.onBackButtonClick()
+    }
+
+    fun onForceForwardButtonClick() {
+        state.onForceForwardButtonClick()
+    }
+
+    fun onForceBackButtonClick() {
+        state.onForceBackButtonClick()
+    }
+
+    fun onGenerateGraphButtonClick() {
+        state.onGenerateGraphButtonClick()
     }
 }
