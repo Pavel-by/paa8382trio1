@@ -50,18 +50,19 @@ class BoruvkaAlgorithm {
 
 
                 // Если никакое ребро из предыдущих множеств не ведет в текущее множество
-                // (В nextComponents еще не существует той компоненты, в которую должна отобразиться по assigment)
+                // (В nextComponents еще не существует той компоненты, в которую должна отобразиться по assignment)
                 if (assignment[i] >= nextComponents.size) {
-                    // Проверка, сольется ли текущее множество с каким-то из предыдущих за счет ребра текущей итерации
+                    // Индекс компоненты, в которую ведет текущее ребро
                     val index: Int = getGroupByNode(components, nodeFromOtherGroup)
 
-                    // Если текущее минимальное ребро ведет в какую-то из предыдущих компонент, слияние с ним
-                    if (assignment[index] < i) {
+                    // Если для "парной" компоненты уже создана компонента следующего шага, слияние
+                    if (assignment[index] < nextComponents.size) {
                         assignment[i] = assignment[index]
                         nextComponents[assignment[i]].first.addAll(components[i].first)
                         nextComponents[assignment[i]].second.addAll(components[i].second)
                     }
-                    // Если текущее не сливается ни с каким из предыдущих, добавленое новой отдельной компоненты
+                    // Если для "парной" компоненты еще не существует отображения на следующем шаге
+                    // Текущая компонента создает новую компоненту следующего шага
                     else {
                         nextComponents.add(components[i])
                         assignment[i] = nextComponents.size - 1
@@ -69,10 +70,27 @@ class BoruvkaAlgorithm {
                 }
                 // Иначе текущее множество объединяется с уже существующим
                 else {
-                    // В текущую компоненту из той другой уже найдено ребро. Нет смысла добавлять текущее
-                    if (getGroupByNode(nextComponents, nodeFromOtherGroup) >= 0) {
+                    // Индекс компоненты, в которую ведет текущее ребро
+                    val index = getGroupByNode(components, nodeFromOtherGroup)
+
+                    // Если текущая компонента и так слиявается с той, в которую ведет ребро,
+                    // То это ребро не превносит ничего нового. Соответствующая пометка
+                    if (assignment[index] == assignment[i]) {
                         connectionIsNew = false
                     }
+                    // Если текущая компонента должна слиться с одной из предыдущих,
+                    // Но при этом найденное ребро требует объединения с ДРУГОЙ из числа предыдущих
+                    // Объединение двух предыдущих в одно общее множество
+                    else if (assignment[index] < nextComponents.size) {
+                        val minInd: Int = Math.min(assignment[i], assignment[index])
+                        val maxInd: Int = Math.max(assignment[i], assignment[index])
+
+                        nextComponents[minInd].first.addAll(nextComponents[maxInd].first)
+                        nextComponents[minInd].second.addAll(nextComponents[maxInd].second)
+                        nextComponents.removeAt(maxInd)
+                        redefineAssigment(assignment, maxInd, minInd)
+                    }
+
                     nextComponents[assignment[i]].first.addAll(components[i].first)
                     nextComponents[assignment[i]].second.addAll(components[i].second)
                 }
@@ -155,6 +173,16 @@ class BoruvkaAlgorithm {
                 }
             }
             edgeList.removeAll(edgesToRemove)
+        }
+    }
+
+    private fun redefineAssigment(assignment: Array<Int>, oldInd: Int, newInd: Int) {
+        for (i in assignment.indices) {
+            if (assignment[i] == oldInd) {
+                assignment[i] = newInd
+            } else if (assignment[i] > oldInd) {
+                assignment[i]--
+            }
         }
     }
 }
