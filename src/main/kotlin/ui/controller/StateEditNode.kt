@@ -100,4 +100,8 @@ class StateEditNode(val node: NodeModel) : ControllerState() {
     override fun onForceBackButtonClick() {}
 
     override fun onGenerateGraphButtonClick() {}
+
+    override fun onSaveButtonClick() {}
+
+    override fun onOpenButtonClick() {}
 }

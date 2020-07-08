@@ -94,4 +94,12 @@ class TreeViewController(val treeView: TreeView) {
     fun onGenerateGraphButtonClick() {
         state.onGenerateGraphButtonClick()
     }
+
+    fun onSaveButtonClick() {
+        state.onSaveButtonClick()
+    }
+
+    fun onOpenButtonClick() {
+        state.onOpenButtonClick()
+    }
 }

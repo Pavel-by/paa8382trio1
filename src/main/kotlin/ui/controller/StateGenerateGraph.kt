@@ -16,6 +16,10 @@ class StateGenerateGraph : ControllerState() {
 
     override fun onStart() {
         super.onStart()
+        controller.isEdit = true
+        controller.isAddNodeSelected = false
+        controller.isAddEdgeSelected = false
+
         val generatorView = GraphGeneratorView()
         generatorView.action = {
             var valid = true
@@ -91,4 +95,8 @@ class StateGenerateGraph : ControllerState() {
     override fun onGenerateGraphButtonClick() {}
 
     override fun onRootKeyPressed(event: KeyEvent) {}
+
+    override fun onSaveButtonClick() {}
+
+    override fun onOpenButtonClick() {}
 }

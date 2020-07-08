@@ -93,4 +93,8 @@ class StateEditEdge(val edge: EdgeModel) : ControllerState() {
     override fun onForceBackButtonClick() {}
 
     override fun onGenerateGraphButtonClick() {}
+
+    override fun onSaveButtonClick() {}
+
+    override fun onOpenButtonClick() {}
 }

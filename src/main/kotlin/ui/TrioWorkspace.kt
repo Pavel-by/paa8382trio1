@@ -59,6 +59,20 @@ class TrioWorkspace : Workspace("Tree") {
             treeView.controller!!.onGenerateGraphButtonClick()
         }
     }
+    private val saveGraphButton = MenuButton().apply {
+        text = "Сохранить"
+
+        action {
+            treeView.controller!!.onSaveButtonClick()
+        }
+    }
+    private val openGraphButton = MenuButton().apply {
+        text = "Открыть"
+
+        action {
+            treeView.controller!!.onOpenButtonClick()
+        }
+    }
 
     private fun updateButtons() {
         if (treeView.controller!!.isEdit) {
@@ -69,6 +83,8 @@ class TrioWorkspace : Workspace("Tree") {
             addEdgeButton.isDisable = false
             addNodeButton.isDisable = false
             generateGraphButton.isDisable = false
+            saveGraphButton.isDisable = false
+            openGraphButton.isDisable = false
             editButton.addPseudoClass("selected")
 
             if (treeView.controller!!.isAddNodeSelected) {
@@ -87,6 +103,8 @@ class TrioWorkspace : Workspace("Tree") {
             forceBackButton.isDisable = treeView.controller!!.currentStep < 0
             forwardButton.isDisable = treeView.controller!!.currentStep >= treeView.controller!!.maxStep
             forceForwardButton.isDisable = treeView.controller!!.currentStep >= treeView.controller!!.maxStep
+            saveGraphButton.isDisable = true
+            openGraphButton.isDisable = true
             addNodeButton.removePseudoClass("selected")
             addEdgeButton.removePseudoClass("selected")
             addNodeButton.isDisable = true
@@ -122,7 +140,8 @@ class TrioWorkspace : Workspace("Tree") {
         header.items.add(addEdgeButton)
         header.spacer {  }
         header.items.add(generateGraphButton)
-
+        header.items.add(saveGraphButton)
+        header.items.add(openGraphButton)
 
         treeView.attach(treeModel)
         dock(treeView)

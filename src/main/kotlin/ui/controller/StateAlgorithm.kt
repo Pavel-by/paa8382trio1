@@ -70,4 +70,8 @@ class StateAlgorithm : ControllerState() {
     }
 
     override fun onGenerateGraphButtonClick() {}
+
+    override fun onSaveButtonClick() {}
+
+    override fun onOpenButtonClick() {}
 }

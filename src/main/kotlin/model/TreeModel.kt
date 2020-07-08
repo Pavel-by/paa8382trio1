@@ -47,5 +47,7 @@ class TreeModel {
         edges.remove(edge)
     }
 
-    fun findNodeByName(name: String) = nodes.find { it.name == name }
+    fun findNodeByName(name: String): NodeModel? {
+        return nodes.find { it.name == name }
+    }
 }
