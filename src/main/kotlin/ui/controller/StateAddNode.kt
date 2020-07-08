@@ -106,4 +106,12 @@ class StateAddNode : ControllerState() {
     override fun onGenerateGraphButtonClick() {
         controller.state = StateGenerateGraph()
     }
+
+    override fun onSaveButtonClick() {
+        controller.state = StateSave()
+    }
+
+    override fun onOpenButtonClick() {
+        controller.state = StateOpen()
+    }
 }
