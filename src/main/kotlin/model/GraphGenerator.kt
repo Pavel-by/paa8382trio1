@@ -1,6 +1,5 @@
 package model
 
-import tornadofx.*
 import ui.views.*
 import java.util.concurrent.ThreadLocalRandom
 import kotlin.math.abs
@@ -12,7 +11,6 @@ enum class GeneratorResult {
     NEGATIVE_NODE_COUNT,
     NEGATIVE_EDGE_COUNT,
     IMPOSSIBLE_TO_BUILD_EDGES,
-    ATTEMPT_LIMIT_EXCEEDED,
     OK
 }
 
@@ -31,7 +29,6 @@ class GraphGenerator {
             GeneratorResult.NEGATIVE_NODE_COUNT -> "Отрицательное число вершин"
             GeneratorResult.NEGATIVE_EDGE_COUNT -> "Отрицательное число ребер"
             GeneratorResult.IMPOSSIBLE_TO_BUILD_EDGES -> "Невозможно построить ребра, если вершин меньше двух"
-            GeneratorResult.ATTEMPT_LIMIT_EXCEEDED -> "Превышено число попыток размещения вершины на полотне"
             else -> ""
         }
     }
@@ -60,19 +57,22 @@ class GraphGenerator {
 
         val nodeArray = ArrayList<NodeModel>()
         val occupiedPoints = ArrayList<Pair<Double, Double>>()
-        attemptBreakLabel@ for (i in 0 until nodeCount) {
-            val maxAttemptCount = 30
+        var limitExceeded = false
+        for (i in 0 until nodeCount) {
+            val maxAttemptCount = 100
             var attemptCount = 0
 
             var point: Pair<Double, Double> = generatePoint(40.0, 1960.0)
-            while (!checkPointAvailability(point, occupiedPoints)) {
-                attemptCount++
-                if (attemptCount == maxAttemptCount) {
-                    resultCode = GeneratorResult.ATTEMPT_LIMIT_EXCEEDED
-                    updateErrorMessage()
-                    break@attemptBreakLabel
+
+            if (!limitExceeded) {
+                while (!checkPointAvailability(point, occupiedPoints)) {
+                    attemptCount++
+                    if (attemptCount == maxAttemptCount) {
+                        limitExceeded = true
+                        break
+                    }
+                    point = generatePoint(40.0, 1960.0)
                 }
-                point = generatePoint(40.0, 1960.0)
             }
             occupiedPoints.add(point)
 
@@ -93,7 +93,7 @@ class GraphGenerator {
             val randomLength =  round(ThreadLocalRandom.current().nextDouble(0.0,100.0) * 100) / 100
 
             val edgeModel = EdgeModel(nodeArray[randomFirstNode], nodeArray[randomSecondNode], randomLength)
-            treeView.addEdge(edgeModel)
+            treeView.treeModel!!.edges.add(edgeModel)
         }
     }
 
