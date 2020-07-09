@@ -24,14 +24,16 @@ class BoruvkaAlgorithmTest {
         var scanner:Scanner
         try {
             for (item in dir.listFiles()) {
-                input_file = File(item.path)
-                output_file  = File(output_name + "Answer" + item.path.substring(item.path.length - 6, item.path.length))
-                scanner = Scanner(output_file)
-                tree = input(input_file)
-                boruvka = BoruvkaAlgorithm()
-                boruvka.process(tree)
-                assertEquals(computeTotalWeight(tree) == scanner.nextDouble(),true)
-                println("test from file " + item.path + " passed")
+                for(x in 0..100) {
+                    input_file = File(item.path)
+                    output_file = File(output_name + "Answer" + item.path.substring(item.path.length - 6 , item.path.length))
+                    scanner = Scanner(output_file)
+                    tree = input(input_file)
+                    boruvka = BoruvkaAlgorithm()
+                    boruvka.process(tree)
+                    assertEquals(computeTotalWeight(tree) == scanner.nextDouble() , true)
+                    println("test from file " + item.path + " passed")
+                }
             }
         }
         catch (e: Exception){
