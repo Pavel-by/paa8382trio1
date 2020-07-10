@@ -55,6 +55,9 @@ class GraphGenerator {
 
         treeView.treeModel!!.nodes.clear()
 
+        val maxSize = if(nodeCount < 50) 1000 else 2000
+        val borderSize = 40
+
         val nodeArray = ArrayList<NodeModel>()
         val occupiedPoints = ArrayList<Pair<Double, Double>>()
         var limitExceeded = false
@@ -62,7 +65,7 @@ class GraphGenerator {
             val maxAttemptCount = 100
             var attemptCount = 0
 
-            var point: Pair<Double, Double> = generatePoint(40.0, 1960.0)
+            var point: Pair<Double, Double> = generatePoint(borderSize.toDouble(), (maxSize - borderSize).toDouble())
 
             if (!limitExceeded) {
                 while (!checkPointAvailability(point, occupiedPoints)) {
@@ -71,7 +74,7 @@ class GraphGenerator {
                         limitExceeded = true
                         break
                     }
-                    point = generatePoint(40.0, 1960.0)
+                    point = generatePoint(borderSize.toDouble(), (maxSize - borderSize).toDouble())
                 }
             }
             occupiedPoints.add(point)
