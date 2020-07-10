@@ -7,12 +7,25 @@ import org.junit.Assert.*
 class EdgeModelTest {
 
     @Test
+    fun runEdgeModelTest(){
+        println("EdgeModel is being tested:")
+        attach()
+        detach()
+        isInTree()
+        getLength()
+        getFirstModel()
+        getSecondModel()
+        println("-------------------------")
+    }
+
+    @Test
     fun getLength() {
         val node1 = NodeModel()
         val node2 = NodeModel()
         val len = 2.0
         val edge = EdgeModel(node1,node2,len)
         assertEquals(edge.length == len,true)
+        println("getLength function works coorectly")
     }
 
     @Test
@@ -28,15 +41,7 @@ class EdgeModelTest {
         assertEquals(edge.isInTree,true)
         edge.detach()
         assertEquals(edge.isInTree, false)
-    }
-
-    @Test
-    fun getStep() {
-
-    }
-
-    @Test
-    fun otherNode() {
+        println("isInTree function works coorectly")
     }
 
     @Test
@@ -49,6 +54,7 @@ class EdgeModelTest {
         node2.attach(tree)
         edge.attach(tree)
         assertEquals(edge.treeModel == tree,true)
+        println("attach function works coorectly")
     }
 
     @Test
@@ -62,6 +68,7 @@ class EdgeModelTest {
         edge.attach(tree)
         edge.detach()
         assertEquals(edge.treeModel == null,true)
+        println("detach function works coorectly")
     }
 
     @Test
@@ -70,6 +77,7 @@ class EdgeModelTest {
         val node2 = NodeModel()
         val edge = EdgeModel(node1,node2,2.0)
         assertEquals(edge.firstModel == node1,true)
+        println("getFirstModel function works coorectly")
     }
 
     @Test
@@ -78,5 +86,6 @@ class EdgeModelTest {
         val node2 = NodeModel()
         val edge = EdgeModel(node1,node2,2.0)
         assertEquals(edge.secondModel == node2,true)
+        println("getSecondModel function works coorectly")
     }
 }
